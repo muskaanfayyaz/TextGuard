@@ -1,0 +1,107 @@
+[
+  {
+    "name": "Managed authentication and protected workspace",
+    "sanity": true,
+    "viewport": "desktop",
+    "covers": [
+      "AppDeploy provider sign-in redirect",
+      "auth session restoration before protected data",
+      "unauthenticated route protection",
+      "logout and session clearing",
+      "authenticated dashboard access"
+    ],
+    "description": "Verifies real provider-managed authentication gates TextGuard and the authenticated user can reach the existing workspace.",
+    "steps": [
+      "Open TextGuard in a signed-out browser session",
+      "Verify the branded sign-in screen appears before workspace content",
+      "Continue to the AppDeploy managed sign-in screen and complete an enabled provider flow",
+      "Verify the authenticated user returns to the TextGuard workspace after session restoration",
+      "Sign out from Account Profile and verify the login screen is shown"
+    ],
+    "expected": "The provider authenticates the user, the SDK restores the identity on app startup, protected API routes reject missing/invalid credentials, and logout clears the session."
+  },
+  {
+    "name": "User-scoped profile persistence and isolation",
+    "viewport": "desktop",
+    "covers": [
+      "server-verified user identity",
+      "profile creation and persistent storage",
+      "profile name update",
+      "profile data isolation by authenticated user ID",
+      "no password storage"
+    ],
+    "description": "Confirms profile records are persisted in the AppDeploy database using the authenticated user ID as the record key.",
+    "steps": [
+      "Sign in with test account A and open Account Profile",
+      "Save a changed display name and reload the page",
+      "Verify the saved name and first-seen date remain",
+      "Sign out and sign in with test account B",
+      "Verify account B cannot read or change account A's profile"
+    ],
+    "expected": "Each profile endpoint requires a valid AppDeploy token and reads/writes only the record keyed by ctx.user.userId. No password fields or password hashes are stored by TextGuard."
+  },
+  {
+    "name": "Preserve comparison workflows after authentication",
+    "viewport": "desktop",
+    "covers": [
+      "TXT and MD upload",
+      "existing local DSA comparison workflow",
+      "hash table Trie token arrays and Rabin-Karp visualizations",
+      "original character offset matching results",
+      "reports and CSV/print export",
+      "session-only comparison history"
+    ],
+    "description": "Checks that the existing algorithm and document comparison modules remain available after the new authentication gate.",
+    "steps": [
+      "Sign in and upload two deterministic TXT documents with a shared five-word phrase",
+      "Run Similarity Checker and open the comparison report",
+      "Inspect both original-offset highlights",
+      "Open Algorithm Analysis and visit all four sections",
+      "Open Detection History and export CSV and print report"
+    ],
+    "expected": "The original client-side DSA engine, document selection, comparisons, highlights, visualizations and reports remain functional after sign-in. Existing history remains session-only."
+  },
+  {
+    "name": "Responsive authentication and profile pages",
+    "viewport": "mobile",
+    "covers": [
+      "responsive login layout at 375px",
+      "mobile profile layout",
+      "accessible validation and focus states",
+      "responsive protected workspace"
+    ],
+    "description": "Checks the authentication entry screen and profile view on narrow mobile and desktop widths.",
+    "steps": [
+      "Open the signed-out login page at 375x667",
+      "Verify the sign-in and create-account actions fit the viewport",
+      "Complete provider sign-in and open Account Profile",
+      "Verify profile fields and sign-out remain usable at 375x667",
+      "Resize to 1280x800 and verify the full layout"
+    ],
+    "expected": "Login, provider redirect, profile editing and logout controls remain visible and operable on mobile and desktop without unintended horizontal overflow."
+  },
+  {
+    "name": "Comparison results restore across navigation and refresh",
+    "viewport": "desktop",
+    "covers": [
+      "completed comparison selected-result handoff",
+      "Comparison Results available after sidebar navigation",
+      "sessionStorage restoration of documents and comparison runs",
+      "Detection History report restoration",
+      "latest comparison selection",
+      "invalid selected comparison handling"
+    ],
+    "description": "Verifies completed engine results are retained for the browser tab and the selected comparison remains available after navigation or reload.",
+    "steps": [
+      "Sign in and upload two deterministic TXT documents",
+      "Run a comparison and verify its report is added to Detection History",
+      "Navigate directly to Comparison Results from the sidebar and verify the completed pair is displayed",
+      "Navigate to another section and return to Comparison Results",
+      "Refresh the browser and reopen Comparison Results",
+      "Open the corresponding Detection History report",
+      "Run a second comparison and verify the latest result is selected",
+      "Attempt to open an unavailable comparison identifier and verify a clear empty/error state"
+    ],
+    "expected": "The latest completed comparison is displayed consistently after section navigation and reload; session document snapshots and history restore from sessionStorage; historical reports show their selected data; unavailable IDs never fall back to stale or fabricated results."
+  }
+]

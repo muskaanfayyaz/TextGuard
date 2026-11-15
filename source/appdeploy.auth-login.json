@@ -1,0 +1,17 @@
+{
+  "methods": [
+    "email",
+    "google"
+  ],
+  "headline": "Welcome Back.",
+  "subtitle": "Sign in to continue protecting your document originality.",
+  "style": {
+    "mode": "light",
+    "accentColor": "#FF9E20",
+    "backgroundColor": "#F4F2F2",
+    "panelColor": "#FFFFFF",
+    "textColor": "#1D2128",
+    "fontFamily": "DM Sans, system-ui, sans-serif",
+    "borderRadius": 14
+  }
+}
