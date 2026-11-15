@@ -1,30 +1,70 @@
 # TextGuard
 
-TextGuard is an explainable document-similarity workspace. It compares uploaded
-text documents in the browser, reports verified matching passages, and exposes
-the data structures and algorithms used by the comparison engine.
+TextGuard is a data-structures project that uploads text documents and
+identifies matching passages using string-searching algorithms. It connects
+classical Data Structures and Algorithms (DSA) with an AI-related application:
+document similarity and originality analysis, without requiring an actual AI
+model.
 
-The project is intentionally algorithm-first: results are based on normalized
-word sequences and exact, verified consecutive windows rather than an opaque
-machine-learning score. Similarity measurements describe textual overlap only;
-they are not a determination of plagiarism, authorship, intent, or legal
-infringement.
+The project is intentionally algorithm-first. It uses a **Hash Table**, **Trie**,
+**Arrays**, and a **Rolling Hash/Rabin-Karp** search strategy to compare
+normalized word sequences. Its unique user-facing feature is the ability to
+highlight the exact matching passages and calculate a similarity percentage for
+each document.
+
+Similarity measurements describe textual overlap only; they are not a
+determination of plagiarism, authorship, intent, or legal infringement.
+
+## Project idea
+
+The core idea is to demonstrate how data structures can solve a practical
+problem that is commonly associated with AI tools:
+
+1. Upload two or more text documents.
+2. Convert each document into normalized word tokens.
+3. Search for verified consecutive word sequences shared by the documents.
+4. Calculate how much of each document is covered by matched words.
+5. Highlight the matching passages so the result is explainable.
+
+This makes TextGuard particularly useful as a DSA demonstration: every result
+can be traced back to a concrete data structure, algorithm, token position, and
+original character offset.
 
 ## What TextGuard does
 
 - Accepts `.txt` and `.md` files through file selection or drag and drop.
 - Reads document contents locally in the browser.
 - Compares one selected pair or every unordered pair of uploaded documents.
-- Finds exact matching word windows with a configurable minimum phrase length.
+- Finds exact matching word sequences with a configurable minimum phrase length.
 - Highlights matching passages at their original character offsets.
-- Reports directional document coverage, shared passage coverage, shared
-  vocabulary, repeated fragments, and algorithm execution time.
+- Calculates a directional similarity percentage for both documents.
+- Reports shared passage coverage, shared vocabulary, repeated fragments, and
+  algorithm execution time.
 - Keeps uploaded documents, comparison reports, and detection history in the
   current browser session.
-- Provides an interactive explanation of the hash table, trie, token array, and
-  Rabin-Karp implementations.
+- Provides interactive demonstrations of the Hash Table, Trie, Arrays, and
+  Rolling Hash/Rabin-Karp implementations.
 - Provides secure AppDeploy sign-in and a profile page without handling
   passwords in the application.
+
+## Data structures and algorithms used
+
+| Data structure or algorithm | Role in TextGuard |
+|---|---|
+| **Arrays** | Store ordered tokens, matched token positions, documents, and rolling-search results. Arrays preserve sequence order so matching passages can be reconstructed and highlighted. |
+| **Hash Table** | Stores fixed-size text fragments and their occurrences in each document. Separate chaining handles collisions and supports efficient fragment lookup. |
+| **Trie** | Stores the document vocabulary character by character. It supports exact word lookup, prefix search, word positions, and shared-vocabulary discovery. |
+| **Rolling Hash** | Represents each consecutive word window with a numeric hash that can be updated efficiently as the window moves. |
+| **Rabin-Karp** | Uses the rolling hash to find candidate matching windows, then verifies every candidate token by token to prevent hash collisions from producing false matches. |
+| **Tokenization** | Normalizes case and extracts Unicode words while preserving original character offsets for accurate highlighting. |
+
+### Why this is an AI-related application without an AI model
+
+TextGuard addresses a problem often solved by AI-powered originality or
+similarity tools, but its decision process is fully transparent and
+algorithmic. It does not generate embeddings, call a language model, or make
+semantic claims about meaning. Instead, it demonstrates how classical DSA can
+provide fast, inspectable, and explainable text analysis.
 
 ## Main functionality
 
